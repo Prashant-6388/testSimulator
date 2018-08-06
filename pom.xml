@@ -25,6 +25,7 @@
 	</properties>
 
 	<dependencies>
+		<!-- Spring boot startup dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -53,7 +54,6 @@
 		    <artifactId>jquery</artifactId>
 		    <version>3.2.1</version>
 		</dependency>
-				
 	</dependencies>
 
 	<build>
