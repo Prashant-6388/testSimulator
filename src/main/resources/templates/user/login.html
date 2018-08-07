@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Starter Template for Bootstrap</title>
+</head>
+<body>
+	<div th:if="${param.error}">
+		Invalid username and password
+	</div>
+	<div th:if="${param.logout}">
+		You have been logged out
+	</div>
+	<br/><br/>
+	<h1 th:text="#{user.login.text}"></h1>
+	<form th:action="@{/login}" method=post>
+		<table>
+			<tr><td><label th:text="#{loging.username.text}"></label></td><td><input type="text" name="username"/></td>
+			<tr><td><label th:text="#{loging.password.text}"></label></td><td><input type="password" name="password"/></td>
+			<tr><td colspan="2"><input type="submit" th:value="#{login.text}"/></td></tr>
+		</table>
+	</form>
+</body>
