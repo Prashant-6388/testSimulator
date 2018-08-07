@@ -54,6 +54,12 @@
 		    <artifactId>jquery</artifactId>
 		    <version>3.2.1</version>
 		</dependency>
+		
+		<!-- Spring boot security configuration -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>

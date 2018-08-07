@@ -10,4 +10,9 @@ public class HelloWorldContoller {
 	public String sayHelloWorld() {
 		return "index";
 	}
+	
+	@RequestMapping(value = "/home")
+	public String home() {
+		return "user/home";
+	}
 }

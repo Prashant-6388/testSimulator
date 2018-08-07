@@ -58,7 +58,15 @@
                 <li class="active"><a href="#">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
-            </ul>
+            	<li>
+		            <label th:text="#{lang.change}" style="color:white"></label>:
+					<select id="locales">
+						<option></option>
+					    <option value="en" th:text="#{lang.eng}"></option>
+					    <option value="fr" th:text="#{lang.fr}"></option>
+					</select>
+				</li>
+			</ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
@@ -70,12 +78,7 @@
         <p class="lead">Use this document as a way to quickly start any new project.<br /> All you get is this text and a
             mostly barebones HTML document.</p>
     </div>
-	<span th:text="#{lang.change}"></span>:
-	<select id="locales">
-	    <option value=""></option>
-	    <option value="en" th:text="#{lang.eng}"></option>
-	    <option value="fr" th:text="#{lang.fr}"></option>
-	</select>
+	
 </div><!-- /.container -->
 
 <!-- Bootstrap core JavaScript
