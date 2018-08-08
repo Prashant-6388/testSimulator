@@ -16,12 +16,15 @@ public class SpringSecurityController extends WebSecurityConfigurerAdapter {
 		"/images/**",
 		"/",
 		"/error",
-		"/index"
+		"/index",
+		"/h2/**"
 	};
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		http.csrf().disable()
+		http.csrf().disable();
+		http.headers().frameOptions().disable();
+		http
 			.authorizeRequests()
 			.antMatchers(PUBLIC_MATCHERS).permitAll() //exclude from spring security...public access
 			.anyRequest().authenticated() //for remaining request use authentication
