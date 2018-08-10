@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.pc.enums.RolesEnum;
+
 @Entity
 public class Role {
 
@@ -20,7 +22,7 @@ public class Role {
 
 	private String rolename;
 
-	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<UserRole> userRoles = new HashSet<>();
 
 	public int getId() {
@@ -45,6 +47,13 @@ public class Role {
 
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
+	}
+	
+	public Role(RolesEnum roleEnum) {
+		id = roleEnum.getId();
+		rolename = roleEnum.getName();
+	}
+	public Role() {
 	}
 
 }
