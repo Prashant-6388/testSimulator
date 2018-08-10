@@ -1,13 +1,20 @@
 package com.pc.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import com.pc.service.UserSecurityService;
+
 @Configuration
 public class SpringSecurityController extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	UserSecurityService userSecurityService;
+	
+		
 	//public URLS that do not require authentication
 	public static final String[] PUBLIC_MATCHERS= {
 		"/webjars/**",
@@ -39,14 +46,7 @@ public class SpringSecurityController extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception{
 		auth
-			.inMemoryAuthentication()
-			.withUser("user")
-			.password("{noop}password") //noop -> no password encryption
-			.roles("USER")
-			.and()
-			.withUser("admin")
-			.password("{noop}admin")
-			.roles("USER","ADMIN");
+			.userDetailsService(userSecurityService);
 	}
 	
 }
