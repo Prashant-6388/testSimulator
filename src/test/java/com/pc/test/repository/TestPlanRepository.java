@@ -21,6 +21,7 @@ import com.pc.model.UserRole;
 import com.pc.persistance.PlanRepository;
 import com.pc.persistance.RoleRepository;
 import com.pc.persistance.UserRepository;
+import com.pc.service.UserService;
 import com.pc.utils.UserUtils;
 
 
@@ -36,6 +37,9 @@ public class TestPlanRepository {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	UserService userService;
 	
 	@Test
 	@Transactional
@@ -79,6 +83,14 @@ public class TestPlanRepository {
 		userRepository.save(basicUser);
 		System.out.println("User = "+userRepository.getOne(basicUser.getId()).getUsername());
 		
+	}
+	
+	@Test
+	@Transactional
+	public void testUserService()
+	{
+		User user = userService.createUser();
+		System.out.println("User -----> "+user.getUserRoles().size());
 	}
 	
 }
