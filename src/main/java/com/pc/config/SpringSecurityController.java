@@ -1,10 +1,14 @@
 package com.pc.config;
 
+import java.security.SecureRandom;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.pc.service.UserSecurityService;
 
@@ -14,6 +18,12 @@ public class SpringSecurityController extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserSecurityService userSecurityService;
 	
+	public static final String SALT="sd251VD6uhsadh234@";
+	
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(5, new SecureRandom(SALT.getBytes()));
+	}
 		
 	//public URLS that do not require authentication
 	public static final String[] PUBLIC_MATCHERS= {
@@ -46,7 +56,8 @@ public class SpringSecurityController extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception{
 		auth
-			.userDetailsService(userSecurityService);
+			.userDetailsService(userSecurityService)
+			.passwordEncoder(passwordEncoder());
 	}
 	
 }

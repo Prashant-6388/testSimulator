@@ -1,69 +1,80 @@
 package com.pc.model;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
+import org.h2.command.dml.Merge;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_role")
-public class UserRole {
+public class UserRole implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+    /** The Serial version UID for serializable classes */
+    private static final long serialVersionUID=1L;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	private User user;
+    public UserRole(){
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "role_id")
-	private Role role;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public UserRole(User user,Role role){
+        this.user=user;
+        this.role=role;
+    }
 
-	public Role getRole() {
-		return role;
-	}
 
-	public void setRole(Role role) {
-		this.role = role;
-	}
 
-	public int getId() {
-		return id;
-	}
+    @Id
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+        private User user;
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
+    @Id
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-		if (o == null || getClass() != o.getClass())
-			return false;
+    public User getUser() {
+        return user;
+    }
 
-		UserRole userRole = (UserRole) o;
-		return (role.equals(userRole.getRole()));
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	@Override
-	public int hashCode() {
-		return user.hashCode() * 31 + role.hashCode();
-	}
+    public Role getRole() {
+        return role;
+    }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRole userRole = (UserRole) o;
+        return id == userRole.id;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
 }
