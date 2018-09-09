@@ -1,8 +1,11 @@
 package com.pc.utils;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.pc.controller.ForgotMyPasswordController;
 import com.pc.model.User;
 
 /**
@@ -26,5 +29,22 @@ public class UserUtils {
 		user.setActive(true);
 		user.setEmail("prashant.6388@gmail.com");
 		return user;
+	}
+	
+	public static String createPasswordResetURL(HttpServletRequest servletRequest, long userId, String token)
+	{
+		 String passwordResetURL = servletRequest.getScheme() 
+				 			+ ":///"
+				 			+ servletRequest.getServerName()
+				 			+ ":"
+				 			+ servletRequest.getServerPort()
+				 			+ servletRequest.getContextPath()
+				 			+ ForgotMyPasswordController.RESET_PASSWORD_URL
+				 			+ "?id="
+				 			+ userId
+				 			+ "&token="
+				 			+ token;
+				 			
+		 return passwordResetURL;
 	}
 }

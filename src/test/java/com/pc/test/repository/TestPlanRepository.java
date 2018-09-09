@@ -1,8 +1,12 @@
 package com.pc.test.repository;
 
+import static org.junit.Assert.assertTrue;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,6 +31,8 @@ import com.pc.persistance.PasswordRestTokenRepository;
 import com.pc.persistance.PlanRepository;
 import com.pc.persistance.RoleRepository;
 import com.pc.persistance.UserRepository;
+import com.pc.persistance.UserRoleRepository;
+import com.pc.service.SimpleMailService;
 import com.pc.service.UserService;
 import com.pc.utils.UserUtils;
 
@@ -49,6 +55,9 @@ public class TestPlanRepository {
 	
 	@Autowired
 	PasswordRestTokenRepository tokenRepository;
+	
+	@Autowired
+	SimpleMailService simpleMailService;
 	
 	@Value("${token.expiration.length.minute}")
 	private int expirationTime;
@@ -93,8 +102,7 @@ public class TestPlanRepository {
 			roleRepository.save(role.getRole());
 		
 		userRepository.save(basicUser);
-		System.out.println("User = "+userRepository.getOne((int) basicUser.getId()).getUsername());
-		
+		System.out.println("User = "+userRepository.getOne( basicUser.getId()).getUsername());
 	}
 	
 	@Test
@@ -105,6 +113,20 @@ public class TestPlanRepository {
 		System.out.println("User -----> "+user.getUserRoles().size());
 	}
 	
+	@Test
+	@Transactional
+	public void testGetUserByEmail()
+	{
+		User user = userService.createUser();
+		User usersFromDB = userRepository.findByEmail(user.getEmail());
+		System.out.println("user from dB = "+usersFromDB.getEmail());
+		/*Iterator userIterator = usersFromDB.iterator();
+		while(userIterator.hasNext())
+		{
+			User u = (User) userIterator.next();
+			System.out.println("User email ="+u.getEmail());
+		}*/
+	}
 
 	@Test
 	@Transactional
@@ -137,7 +159,24 @@ public class TestPlanRepository {
 			System.out.println("tokenFromDb = "+((PasswordResetToken)itr.next()).getToken());
 			System.out.println("tokenFromDb = "+((PasswordResetToken)itr.next()).getExpiryDate());
 		}
-				
 	}
 	
+	@Test
+	@Transactional
+	public void testUpdatePassword(){
+		User user = userService.createUser();
+		System.out.println("current Password = "+user.getPassword());
+		
+		String newPassword = UUID.randomUUID().toString();
+		System.out.println("gnerated password = "+newPassword);
+		userRepository.updateUserPassword(user.getId(), newPassword);
+		
+		Optional<User> user1 = userRepository.findById(user.getId());
+		System.out.println("New password="+user1.get().getPassword());
+	}
+	@Test
+	@Transactional
+	public void testSendEmail(){
+		simpleMailService.sendMail("prashant.6388@gmail.com","testResetURL");
+	}
 }
