@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.pc.controller.ForgotMyPasswordController;
 import com.pc.service.UserSecurityService;
 
 @Configuration
@@ -34,7 +35,9 @@ public class SpringSecurityController extends WebSecurityConfigurerAdapter {
 		"/",
 		"/error",
 		"/index",
-		"/h2/**"
+		"/h2/**",
+		"/forgotPassword",
+		ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING
 	};
 	
 	@Override

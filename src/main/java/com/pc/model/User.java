@@ -30,6 +30,7 @@ public class User implements Serializable,UserDetails {
 
     private String password;
 
+    @Column(unique = true)
     private String email;
 
     @Column(name = "first_name")
@@ -57,8 +58,6 @@ public class User implements Serializable,UserDetails {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "plan_id")
     private Plan plan;
-
-
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL ,fetch = FetchType.EAGER)
     private Set<UserRole> userRoles= new HashSet<>();
@@ -217,7 +216,6 @@ public class User implements Serializable,UserDetails {
     }
 
 	public void setActive(boolean b) {
-		
-		
+		enabled = true;
 	}
 }
