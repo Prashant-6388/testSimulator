@@ -13,6 +13,7 @@ import java.util.UUID;
 import javax.transaction.Transactional;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ import com.pc.utils.UserUtils;
 @SpringBootTest
 public class TestPlanRepository {
 
-	@Autowired 
+/*	@Autowired 
 	PlanRepository planRepository;
 	
 	@Autowired 
@@ -55,12 +56,17 @@ public class TestPlanRepository {
 	
 	@Autowired
 	PasswordRestTokenRepository tokenRepository;
-	
-	@Autowired
-	SimpleMailService simpleMailService;
+//	
+//	@Autowired
+//	SimpleMailService simpleMailService;
 	
 	@Value("${token.expiration.length.minute}")
-	private int expirationTime;
+	private int expirationTime=120;
+	
+	@Before
+    public void init() {
+        Assert.assertFalse(expirationTime == 0);
+    }
 	
 	@Test
 	@Transactional
@@ -120,12 +126,12 @@ public class TestPlanRepository {
 		User user = userService.createUser();
 		User usersFromDB = userRepository.findByEmail(user.getEmail());
 		System.out.println("user from dB = "+usersFromDB.getEmail());
-		/*Iterator userIterator = usersFromDB.iterator();
+		Iterator userIterator = usersFromDB.iterator();
 		while(userIterator.hasNext())
 		{
 			User u = (User) userIterator.next();
 			System.out.println("User email ="+u.getEmail());
-		}*/
+		}
 	}
 
 	@Test
@@ -173,10 +179,10 @@ public class TestPlanRepository {
 		
 		Optional<User> user1 = userRepository.findById(user.getId());
 		System.out.println("New password="+user1.get().getPassword());
-	}
-	@Test
+	}*/
+	/*@Test
 	@Transactional
 	public void testSendEmail(){
 		simpleMailService.sendMail("prashant.6388@gmail.com","testResetURL");
-	}
+	}*/
 }

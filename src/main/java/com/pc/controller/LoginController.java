@@ -16,5 +16,4 @@ public class LoginController {
 		return "user/error";
 	}
 	
-	@
 }

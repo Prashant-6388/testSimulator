@@ -95,7 +95,22 @@
 	        <artifactId>spring-boot-starter-mail</artifactId>
 	        <version>1.2.6.RELEASE</version>
 	    </dependency>
-		
+	    
+	    <!-- Hibernate validator -->
+	    <dependency>
+	        <groupId>org.hibernate</groupId>
+	        <artifactId>hibernate-validator</artifactId>
+	        <version>6.0.13.Final</version>
+	    </dependency>
+	    
+	    <!-- uk.co.jemos.podam -->
+		<dependency>
+	        <groupId>uk.co.jemos.podam</groupId>
+	        <artifactId>podam</artifactId>
+	        <version>6.0.2.RELEASE</version>
+	        <scope>test</scope>
+	    </dependency>
+	    
 	</dependencies>
 
 	<build>
