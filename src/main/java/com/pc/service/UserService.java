@@ -107,5 +107,12 @@ public class UserService {
 		return user;
 	}
 	
+	public User findUserByUsername(String username) {
+		return userRepository.findUserByUsername(username);
+	}
+	
+	public User findUserbyEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
 	
 }
