@@ -48,15 +48,20 @@ public class UserService {
 		
 		user.setPlan(plan);
 		
-//		for(UserRole userRole : userRoles)
-//			roleRepository.save(userRole.getRole());
-//		
-		userRoles.forEach(ur -> roleRepository.save(ur.getRole()));
+		
+		
+		for(UserRole userRole : userRoles)
+		{
+			if(roleRepository.findById(userRole.getRole().getId()).orElse(null) == null)
+				roleRepository.save(userRole.getRole());
+		}
+//		userRoles.forEach(ur -> if(roleRepository.findById(ur.) roleRepository.save(ur.getRole()));
 		
 		user.setUserRoles(userRoles);
 		
 		user.getUserRoles().addAll(userRoles);
 		
+		userRepository.save(user);
 		return user;
 	}
 	
