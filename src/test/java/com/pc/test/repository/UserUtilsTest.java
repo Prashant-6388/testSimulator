@@ -65,4 +65,26 @@ public class UserUtilsTest {
 		
 	}
 	
+		/**
+	 * Method will create a user first and then it will verify its email
+	 */
+	@Test
+	public void testFindUserByUserId()
+	{
+		User user = userservice.createUser();
+		User userByUsername = userservice.findUserByUsername(user.getUsername());
+		Assert.assertEquals(user.getEmail(), userByUsername.getEmail());
+	}
+
+	/**
+	 * Method will create a user first and then it will verify its username
+	 */
+	@Test
+	public void testFindUserByEmail()
+	{
+		User user = userservice.createUser();
+		User userByUsername = userservice.findUserbyEmail(user.getEmail());
+		Assert.assertEquals(user.getUsername(), userByUsername.getUsername());
+	}
+	
 }

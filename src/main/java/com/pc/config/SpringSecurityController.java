@@ -37,6 +37,7 @@ public class SpringSecurityController extends WebSecurityConfigurerAdapter {
 		"/index",
 		"/h2/**",
 		"/forgotPassword",
+		"/signup",
 		ForgotMyPasswordController.FORGOT_PASSWORD_URL_MAPPING
 	};
 	

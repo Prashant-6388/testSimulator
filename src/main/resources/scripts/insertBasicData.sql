@@ -1,6 +1,6 @@
 insert into Plan(id,name) values (1,'Basic');
-
-insert into Role(id,rolename) values (1,'ROLE_BASIC');
+insert into Plan(id,name) values (2,'Advanced');
+insert into Role(id,name) values (1,'ROLE_BASIC');
 
 insert into User(id,username,password,is_active,plan_id,email)
 values(1,'prashant','{noop}prashant',TRUE,1,'prashant.6388@gmail.com');
