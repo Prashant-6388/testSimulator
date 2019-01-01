@@ -3,6 +3,7 @@ package com.pc.test.repository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
@@ -10,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.pc.model.User;
 import com.pc.model.frontend.BasicAccountPayload;
+import com.pc.service.UserService;
 import com.pc.utils.UserUtils;
 
 import uk.co.jemos.podam.api.PodamFactory;
@@ -26,6 +28,8 @@ public class UserUtilsTest {
 	
 	private PodamFactory podamFactory;
 	
+	@Autowired
+	UserService userService;
 	@Test
     public void mapWebUserToDomainUser() {
 
@@ -71,8 +75,8 @@ public class UserUtilsTest {
 	@Test
 	public void testFindUserByUserId()
 	{
-		User user = userservice.createUser();
-		User userByUsername = userservice.findUserByUsername(user.getUsername());
+		User user = userService.createUser();
+		User userByUsername = userService.findUserByUsername(user.getUsername());
 		Assert.assertEquals(user.getEmail(), userByUsername.getEmail());
 	}
 
@@ -82,8 +86,8 @@ public class UserUtilsTest {
 	@Test
 	public void testFindUserByEmail()
 	{
-		User user = userservice.createUser();
-		User userByUsername = userservice.findUserbyEmail(user.getEmail());
+		User user = userService.createUser();
+		User userByUsername = userService.findUserbyEmail(user.getEmail());
 		Assert.assertEquals(user.getUsername(), userByUsername.getUsername());
 	}
 	

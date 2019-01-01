@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.amazonaws.services.s3.model.Bucket;
 import com.pc.enums.PlansEnum;
 import com.pc.enums.RolesEnum;
 import com.pc.model.PasswordResetToken;
@@ -33,6 +34,7 @@ import com.pc.persistance.PlanRepository;
 import com.pc.persistance.RoleRepository;
 import com.pc.persistance.UserRepository;
 import com.pc.persistance.UserRoleRepository;
+import com.pc.service.S3Service;
 import com.pc.service.SimpleMailService;
 import com.pc.service.UserService;
 import com.pc.utils.UserUtils;
@@ -42,6 +44,8 @@ import com.pc.utils.UserUtils;
 @SpringBootTest
 public class TestPlanRepository {
 
+	@Autowired
+	S3Service s3Service;
 /*	@Autowired 
 	PlanRepository planRepository;
 	
@@ -185,4 +189,18 @@ public class TestPlanRepository {
 	public void testSendEmail(){
 		simpleMailService.sendMail("prashant.6388@gmail.com","testResetURL");
 	}*/
+	
+	@Test
+	public void s3ServiceTest() {
+		List<Bucket> bucketList = s3Service.getS3BucketList();
+		for(Bucket bucket : bucketList) {
+			System.out.println("Bucket = "+bucket.getName());
+		}
+	}
+	//not working
+	@Ignore
+	@Test
+	public void s3ServiceTestBucketCheck() {
+		s3Service.checkIfBucketExists("developernic");
+	}
 }
