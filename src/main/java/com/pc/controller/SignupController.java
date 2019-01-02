@@ -111,6 +111,19 @@ public class SignupController {
 		log.debug("transforming userpayrole into user");
 		User user = UserUtils.fromWebUserToDomainUser(payLoad);
 
+		//for uploading file to amazon  s3
+		if(file!=null && !file.isEmpty()){
+		 	String profileImageURL = null;
+		 	if(profileImageURL != null) {
+		 		user.setProfileImageUrl(profileImageURL);
+		 	}
+		 	else {
+		 		log.warn("there is problem uploading image to amazon s3, user profile {} will be creatd with out profile image",user.getUsername());
+		 	}
+		}
+		
+		
+		
 		Plan selectedPlan = planService.findPlanById(planId);
 		if (selectedPlan == null) {
 			log.debug("The plan id {} could not be found", planId);

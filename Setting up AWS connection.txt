@@ -1,0 +1,46 @@
+Creating AWS account to setup s3 and ec2 services
+
+Create a AWS accout(just google it for process)
+
+go to https://console.aws.amazon.com/iam
+create user group
+in user group configure below permissions
+	-AmazonEC2FullAccess
+	-AmazonS3FullAccess
+Create a user and assign it to user group created previously.
+
+install AWS client:
+for windows use MSI installer using below link
+https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html#install-msi-on-windows
+	
+to test if installation is successful or not run below commond from CMD
+aws --vesion
+
+you should be able to see to see two files 
+	-config
+	-credentials
+
+to create a profile use command 
+aws configure --profile <profile name>
+
+it will ask for aws_access_key_id, aws_secret_access_key, region and output
+you can get this information for IAM console 
+https://console.aws.amazon.com/iam/home#/users/
+click on user you have created previously, go to security credentials tab
+you can see both keys and region at last in Last Used column something like 2019-01-01 13:35 UTC+0530 with s3 in us-east-1(region is us-east-1)
+for output you can specify json(default output format)
+
+now you have to create Bucket in S3, use https://console.aws.amazon.com/s3
+create a bucket(just follow on screen instructions)
+
+now use command 
+aws s3 ls --profile <your profile name>
+this will list buckets available for your profile and you should be able to see bucket you have created in above step in your cmd prompt
+----troubleshooting--------------
+if you face any issue in listing s3 you might need to check details entered druing profile creation
+you can verify region in ~/.aws/config file and for signatrue issue you need to check in ~/.aws/credentials file
+---------------------------------
+
+C:\Users\Prashant>aws s3 ls --profile testsim
+2019-01-01 12:35:02 developernic
+
