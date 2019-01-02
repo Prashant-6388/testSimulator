@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -202,5 +203,10 @@ public class TestPlanRepository {
 	@Test
 	public void s3ServiceTestBucketCheck() {
 		s3Service.checkIfBucketExists("developernic");
+	}
+	
+	@Test
+	public void chekifS3BucketExists() {
+		s3Service.ensureBucketExists("developernic");
 	}
 }
