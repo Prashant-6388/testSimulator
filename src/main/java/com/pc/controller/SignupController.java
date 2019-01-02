@@ -31,6 +31,7 @@ import com.pc.model.UserRole;
 import com.pc.model.frontend.BasicAccountPayload;
 import com.pc.model.frontend.ProAccountPayload;
 import com.pc.service.PlanService;
+import com.pc.service.S3Service;
 import com.pc.service.UserService;
 import com.pc.utils.UserUtils;
 
@@ -60,6 +61,9 @@ public class SignupController {
 
 	@Autowired
 	PlanService planService;
+	
+	@Autowired
+	S3Service s3service;
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signupGet(@RequestParam("planId") int planId, ModelMap model) {
@@ -113,7 +117,7 @@ public class SignupController {
 
 		//for uploading file to amazon  s3
 		if(file!=null && !file.isEmpty()){
-		 	String profileImageURL = null;
+		 	String profileImageURL = s3service.storeProfileImage(file, payLoad.getUsername());
 		 	if(profileImageURL != null) {
 		 		user.setProfileImageUrl(profileImageURL);
 		 	}

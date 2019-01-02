@@ -38,11 +38,11 @@ public class ApplicationConfig {
         AWSCredentials credentials = new ProfileCredentialsProvider(awsProfileName).getCredentials();
         AWSCredentialsProvider credentialProvider = new AWSStaticCredentialsProvider(credentials);
 //        AmazonS3ClientBuilder s3Clientbuilder = AmazonS3ClientBuilder.standard().withCredentials(credentialProvider);
-        AmazonS3 amazonS3Client = AmazonS3ClientBuilder.standard()
+        return  AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
-                .withRegion(Regions.US_EAST_1)
+                .withRegion(Regions.AP_SOUTH_1)
                 .build();
-        return amazonS3Client;
+//        return amazonS3Client;
         
     }
 }
