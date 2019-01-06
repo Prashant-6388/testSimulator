@@ -1,45 +1,28 @@
 package com.pc.test.repository;
 
-import static org.junit.Assert.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
 
-import javax.transaction.Transactional;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.amazonaws.services.s3.model.Bucket;
-import com.pc.enums.PlansEnum;
-import com.pc.enums.RolesEnum;
-import com.pc.model.PasswordResetToken;
-import com.pc.model.Plan;
-import com.pc.model.Role;
-import com.pc.model.User;
-import com.pc.model.UserRole;
-import com.pc.persistance.PasswordRestTokenRepository;
-import com.pc.persistance.PlanRepository;
-import com.pc.persistance.RoleRepository;
-import com.pc.persistance.UserRepository;
-import com.pc.persistance.UserRoleRepository;
+import com.pc.controller.SignupController;
+import com.pc.model.frontend.ProAccountPayload;
 import com.pc.service.S3Service;
-import com.pc.service.SimpleMailService;
-import com.pc.service.UserService;
-import com.pc.utils.UserUtils;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,6 +30,15 @@ public class TestPlanRepository {
 
 	@Autowired
 	S3Service s3Service;
+	
+	MockMvc  mockmvc;
+	
+	@Before
+	public void setUp() {
+		mockmvc = MockMvcBuilders.standaloneSetup(SignupController.class).build();
+	}
+	
+	
 /*	@Autowired 
 	PlanRepository planRepository;
 	
@@ -185,6 +177,7 @@ public class TestPlanRepository {
 		Optional<User> user1 = userRepository.findById(user.getId());
 		System.out.println("New password="+user1.get().getPassword());
 	}*/
+	
 	/*@Test
 	@Transactional
 	public void testSendEmail(){
@@ -208,5 +201,48 @@ public class TestPlanRepository {
 	@Test
 	public void chekifS3BucketExists() {
 		s3Service.ensureBucketExists("developernic");
+	}
+	
+	@Test
+	//methods gives error of cyclic view path but in our scenario its correct
+	//for testing purpose we can return different view name in SignupController
+	public void test_signUp_get() throws Exception {
+		mockmvc.perform(get("/signup?planId=1"))
+			.andExpect(status().isOk())
+	        .andExpect(view().name(("signupPost")))
+	        .andDo(print());
+	}
+	
+	@Test
+	//in this test method signupcontroller is invoked correctly but in further processing userservice is null
+	//so method fails
+	public void test_signup_post() throws Exception {
+		ProAccountPayload payLoad = new ProAccountPayload();
+		payLoad.setUsername("test");
+		payLoad.setEmail("test@test.com");
+		payLoad.setPassword("test");
+		payLoad.setConfirmPassword("test");
+		payLoad.setFirstName("te");
+		payLoad.setLastName("st");
+		payLoad.setCountry("IN");
+		payLoad.setDescription("This is simple object for testing");
+		payLoad.setPhoneNumber("1111111111");
+		
+		System.out.println("PayLoad: "+payLoad);
+		mockmvc.perform(post("/signup")
+						.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+						.param("planId", "1")
+						.flashAttr("payload", payLoad))
+				.andExpect(status().isOk());
+		
+		//if method is not working and gettins some request errors,
+		//below code can be used to check for more detailed error
+		/*MvcResult result = mockmvc.perform(post("/signup")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED)
+				.param("planId", "1")
+				.flashAttr("payload", payLoad))
+		.andReturn();
+		
+		result.getResolvedException().printStackTrace();*/
 	}
 }
